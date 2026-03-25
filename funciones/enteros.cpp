@@ -1,10 +1,10 @@
 
-int hacerPositivo(int i) {
-    if (i < 0)
-    {
-        return i * -1;
-    }
-    return i;
+int abs(int n) {
+  if (n < 0) {
+    return -1 * n;
+  }
+
+  return n;
 }
 
 int max(int a, int b) {
@@ -14,3 +14,4 @@ int max(int a, int b) {
 int min(int a, int b) {
     return a < b ? a : b;
 }
+
