@@ -15,24 +15,24 @@ private:
         node *right = nullptr;
         int height = 1;
     };
+
     node *root = nullptr;
     int count = 0;
 
     int height(node *n)
     {
-        if (!n)
-            return 0;
+        if (!n) return 0;
         return n->height;
     }
 
     int max(int a, int b)
     {
         if (a > b) return a;
-        else return b;
+        return b;
     }
 
     node *insert(node *root, T data)
-    {   
+    {
         if (!root)
         {
             count++;
@@ -45,94 +45,100 @@ private:
         {
             root->left = insert(root->left, data);
         }
-        else
+        else if (data > root->data)
         {
             root->right = insert(root->right, data);
         }
+        else
+        {
+            return root;
+        }
 
         root->height = 1 + max(height(root->left), height(root->right));
-
         root = balance(root);
-        
+
         return root;
     }
 
     node *balance(node *root)
     {
-        // BF: balance factor | fator de balanceo
+        if (!root) return root;
+
         int rootBF = height(root->left) - height(root->right);
+
         if (rootBF == 2)
         {
-            // desb izq-?
             int leftBF = height(root->left->left) - height(root->left->right);
+
             if (leftBF >= 0)
             {
-                // desb izq-izq -> rotación a la derecha
                 root = rightRot(root);
             }
-            else if (leftBF < 0)
+            else
             {
-                // desb izq-der
                 root = leftRightRot(root);
             }
         }
-        if (rootBF == -2)
+        else if (rootBF == -2)
         {
-            // desb der-?
             int rightBF = height(root->right->left) - height(root->right->right);
-            if (rightBF == 1)
+
+            if (rightBF <= 0)
             {
-                // desb der-izq
-                root = rightLeftRot(root);
-            }
-            else if (rightBF == -1)
-            {
-                // desb der-der
                 root = leftRot(root);
             }
+            else
+            {
+                root = rightLeftRot(root);
+            }
         }
+
         return root;
     }
 
-    node * rightRot(node *z)
+    node *rightRot(node *z)
     {
         /*
                 z               y
-               / \             / \ 
+               / \             / \
               y   t1  ----->  x   z
              / \                 / \
             x   t2             t2   t1
         */
         node *y = z->left;
         node *y_r = y->right;
+
         y->right = z;
         z->left = y_r;
+
         z->height = 1 + max(height(z->left), height(z->right));
         y->height = 1 + max(height(y->left), height(y->right));
 
         return y;
     }
 
-    node * leftRot(node *z)
+    node *leftRot(node *z)
     {
         /*
                 z               y
-               / \             / \ 
+               / \             / \
               t1   y  ----->  z   x
                   / \        / \
                  t2  x     t1   t2
         */
         node *y = z->right;
         node *y_l = y->left;
+
         y->left = z;
         z->right = y_l;
+
         z->height = 1 + max(height(z->left), height(z->right));
         y->height = 1 + max(height(y->left), height(y->right));
 
-        return y;     
+        return y;
     }
 
-    node * rightLeftRot(node *z)
+    node *rightLeftRot(node *z)
     {
         /*
            z                    z                    x
@@ -147,7 +153,7 @@ private:
         return leftRot(z);
     }
 
-    node* leftRightRot(node *z)
+    node *leftRightRot(node *z)
     {
         /*
            z                    z                    x
@@ -161,34 +167,64 @@ private:
         z->left = leftRot(z->left);
         return rightRot(z);
     }
-    
-    node *remove(node *root, T data)
-    {
-        if (!root) return root;
-        if (root->data > data) root->left = remove(root->left, data);
-        else if (root->data < data) root->right = remove(root->right, data);
-        else
-        {
-            node *izq = root->left;
-            node *der = root->right;
-            delete root;
-            count--;
-            if (!der) return izq;
-            der = fondo(der, izq);
-            root = der;
 
+    node *minNode(node *root)
+    {
+        while (root && root->left)
+        {
+            root = root->left;
         }
-        root->height = 1 + max(height(root->left), height(root->right));
-        root = balance(root);
         return root;
     }
 
-    node *fondo(node *root, node *chico)
+    node *remove(node *root, T data)
     {
-        if (!root) return chico;
-        root->left = fondo(root->left, chico);
+        if (!root) return root;
+
+        if (data < root->data)
+        {
+            root->left = remove(root->left, data);
+        }
+        else if (data > root->data)
+        {
+            root->right = remove(root->right, data);
+        }
+        else
+        {
+            // caso 1: sin hijos
+            if (!root->left && !root->right)
+            {
+                delete root;
+                count--;
+                return nullptr;
+            }
+
+            // caso 2: un solo hijo
+            if (!root->left)
+            {
+                node *aux = root->right;
+                delete root;
+                count--;
+                return aux;
+            }
+
+            if (!root->right)
+            {
+                node *aux = root->left;
+                delete root;
+                count--;
+                return aux;
+            }
+
+            // caso 3: dos hijos
+            node *minDer = minNode(root->right);
+            root->data = minDer->data;
+            root->right = remove(root->right, minDer->data);
+        }
+
         root->height = 1 + max(height(root->left), height(root->right));
         root = balance(root);
+
         return root;
     }
 
@@ -204,22 +240,27 @@ public:
     avl()
     {
     }
+
     virtual void insert(T data) override
     {
         this->root = insert(this->root, data);
     }
+
     virtual void remove(T data) override
     {
         this->root = remove(this->root, data);
     }
+
     virtual void printInOrder() override
     {
         printInOrder(root);
     }
+
     virtual int size() override
     {
         return this->count;
     }
+
     virtual int height() override
     {
         return height(this->root);

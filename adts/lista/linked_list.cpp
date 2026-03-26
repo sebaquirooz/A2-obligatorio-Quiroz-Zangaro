@@ -30,7 +30,7 @@ public:
       {
          node *aux = this->head;
          while (aux->next) aux = aux->next;
-         aux->next = new node{data, nullptr}
+         aux->next = new node{data, nullptr};
       }
       this->length++;
    }
@@ -67,7 +67,7 @@ public:
       node *prev = nullptr;
       if (pos == 0)
       {
-         this->head = aux->next
+         this->head = aux->next;
          this->length--;
          delete aux;
          return;
@@ -118,7 +118,7 @@ public:
 
    virtual T get(int pos) override
    {
-      if (pos >= this->length && pos >= 0) return T{};
+      if (pos >= this->length || pos < 0) return T{};
       node *aux = this->head;
       for (int i = 0; i < pos; i++) aux = aux->next;
       return aux->data;

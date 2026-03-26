@@ -28,7 +28,7 @@ private:
   }
 
 public:
-  hash_table(int expectedSize, hash_func<K> *h) {
+  hashC_table(int expectedSize, hash_func<K> *h) {
     this->h = h;
     this->bucketCount = expectedSize * 2 - 1;
     this->buckets = new kv_pair *[this->bucketCount]();
