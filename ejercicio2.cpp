@@ -22,6 +22,15 @@ Es verdad que capaz usamos memoria al pedo, pero no es taaaan grave.
 
 Insertar en el hash.
 i = 0
+fHashDoble = string_hash(nombre[0]) + i * buckets 
+pos = fHashDoble(nombre[0]) % buckets 
+
+int valor = stringHash.hash(nombre.c_str());
+
+int h1 = valor % buckets;
+int h2 = 1 + (valor % (buckets - 1));
+
+int pos = (h1 + i * h2) % buckets;
 
 while i < M:
     pos = (h1(clave) + i * h2(clave)) mod M

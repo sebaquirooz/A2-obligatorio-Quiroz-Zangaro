@@ -3,5 +3,5 @@
 
 class int_hash : public hash_func<int> {
 public:
-  virtual int hash(int data) override { return data; }
+  virtual int hash(char data) override { return (data - 'a'); }
 };
