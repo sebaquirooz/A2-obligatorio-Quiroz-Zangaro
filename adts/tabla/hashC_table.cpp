@@ -49,11 +49,69 @@ public:
     }
   }
 
-  virtual void set(K key, V value) override { assert(false); }
+  virtual void set(K key, V value) override {
 
-  virtual bool contains(K key) override { assert(false); }
+    int hash = this->h->hash(key);
+    int collisions = 0;
 
-  virtual void remove(K key) override { assert(false); }
+    while (true) {
+      int pos = fPos(hash, collisions);
+      kv_pair *pair = this->buckets[pos];
+
+      if (pair == nullptr){
+        this->bucket[pos] = new kv_pair(key, value);
+        this->elementsCout++;
+        return;
+      }
+
+      if (pair->is_deleted || pair->key == key){ 
+        pair->key = key;
+        pair->value = value;
+        pair->is_deleted = false;
+        this->elementsCount++;
+        return;
+      }
+      collisions++;
+    }
+  }
+
+  virtual bool contains(K key) override {
+
+    int hash = this->h->hash(key);
+    int collisions = 0;
+
+    while (true) {
+      int pos = fPos(hash, collisions);
+      kv_pair *pair = this->buckets[pos];
+
+      if (pair == nullptr) return false;
+
+      if (pair->key == key && !pair->is_deleted){
+        return true;
+      }
+      collisions++;
+    }
+  }
+
+  virtual void remove(K key) override { 
+
+    int hash = this->h->hash(key);
+    int collisions = 0;
+
+    while (true) {
+      int pos = fPos(hash, collisions);
+      kv_pair *pair = this->buckets[pos];
+
+      if (pair == nullptr) assert(false);
+
+      if (pair->key == key && !pair->is_deleted){ //Evito borrar algo ya eliminado
+        pair->is_deleted = true;
+        this->elementsCount--;
+        return;
+      }
+      collisions++;
+    }
+  }
 
   virtual V get(K key) override {
     int hash = this->h->hash(key);
@@ -76,4 +134,4 @@ public:
   }
 
   virtual int size() override { return this->elementsCount; }
-};
+  };

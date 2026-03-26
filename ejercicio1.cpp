@@ -14,6 +14,12 @@ int main()
 hash cerrado, sabemos que vamos a tener bucketrs de A-Z, o sea, 27 buckets (creo)
 Definimos cont de puertas que no podemos abrir.
 
+Para crear el hash, hay que instanciar el las hash_func de chars.
+
+char_hash* h = new char_hash();
+hashC_table<char, int> tabla(expectedSize, h);
+
+
 fHash = letra - a
 ej. a - a = 0 | z - a = 27, etc.
 En el hash -> clave = letra; valor = cantidad, todas setteadas en 0, y cada vez que encontramos uno, la sumamos.

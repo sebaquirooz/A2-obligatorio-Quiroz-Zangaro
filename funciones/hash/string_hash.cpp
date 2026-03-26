@@ -2,7 +2,7 @@
 #include "hash_func.cpp"
 #include <string>
 
-class string_hash : public hash_func<int> {
+class string_hash : public hash_func<const char*> {
 public:
   virtual int hash(const char *data) override { 
     int i = 0;
