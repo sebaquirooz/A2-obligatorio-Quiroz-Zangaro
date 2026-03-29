@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../functions/hash/hash_func.cpp"
-#include "../../functions/ints.cpp"
+#include "../../funciones/hash/hash_func.cpp"
+#include "../../funciones/enteros.cpp"
 #include "table.cpp"
 #include <assert.h>
 
@@ -59,8 +59,8 @@ public:
       kv_pair *pair = this->buckets[pos];
 
       if (pair == nullptr){
-        this->bucket[pos] = new kv_pair(key, value);
-        this->elementsCout++;
+        this->buckets[pos] = new kv_pair(key, value);
+        this->elementsCount++;
         return;
       }
 
