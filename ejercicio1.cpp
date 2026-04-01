@@ -28,8 +28,8 @@ int main()
         }
 
         char puerta = entrada[i+1] + 32; //lo llevo en ascii a minúscula
-        if (tabla.contains(puerta) && tabla.get(puerta) > 0){ //puede contener a la puerta pero tenerla con 0 llaves porque ya la uso. no puedo usar get de una porque si no existe el assert me rompe todo.
-            tabla.set(puerta, tabla.get(puerta) - 1);
+        if (tabla.contains(puerta) && tabla.get(puerta) > 0){ //puede contener a la puerta pero tenerla con 0 llaves porque ya la uso. 
+            tabla.set(puerta, tabla.get(puerta) - 1);        // no puedo usar get de una porque si no existe el assert me rompe todo.
         }
         else{
             output++;

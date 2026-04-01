@@ -2,12 +2,34 @@
 #include <string>
 #include <iostream>
 #include <limits>
+#include "adts/tabla/hashCdblHash_table.cpp"
+#include "funciones/hash/string_hash.cpp"
 
 using namespace std;
 
 int main()
 {
-    // TODO
+    int rondas;
+    string nombreMaximo;
+    string nombreMaximoHistorico;
+    int ptsMaximo = 0;
+    int ptsMaximoHistorico = 0;
+    int output = 0;
+
+    cin >> rondas;
+
+    string_hash* h = new string_hash();
+    hashCdblHash_table<string, int> table(rondas, h);
+
+    for (int i = 0; i < rondas; i++){
+        string nombre;
+        string numero;
+        cin >> nombre >> numero;
+        int pts = std::stoi(numero);; //función de la libreria string, string to integer.
+
+        table.set()
+
+    }
     return 0;
 }
 
@@ -53,4 +75,19 @@ while i < M:
     si no:
         i++
 
+1       bob	        +90	        bob: 90
+2	    ana	        +100	    ana: 100
+3	    ana	        -10	        ana: 90
+4	    ana	        -40	        ana: 50
+5       pepe        +90        pepe: 90
+
+1       bob	        +90	        bob: 90
+2	    ana	        +100	    ana: 100
+3	    ana	        -10	        ana: 90
+4	    ana	        -40	        ana: 50
+5       pepe        +90         pepe: 90
+6       ana         +40         ana: 90
+	
+
 */
+
