@@ -1,2 +1,5 @@
-7
-aAbCcBdDeFfE
+4
+ana 100
+ana -50
+ana -40
+bob 90

@@ -2,14 +2,14 @@
 #include "hash_func.cpp"
 #include <string>
 
-class string_hash : public hash_func<const char*> {
+using namespace std;
+
+class string_hash : public hash_func<string> {
 public:
-  virtual int hash(const char *data) override { 
-    int i = 0;
+  virtual int hash(string data) override { 
     int sum = 0;
-    while (data[i] != '\0'){
-      sum+= data[i];
-      i++;
+    for (int i = 0; i < data.length(); i++) {
+        sum += data[i];
     }
     return sum;
   }

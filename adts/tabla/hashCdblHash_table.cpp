@@ -70,7 +70,7 @@ public:
         pair->key = key;
         pair->value = value;
         pair->is_deleted = false;
-        this->elementsCount++;
+        if (pair->is_deleted) this->elementsCount++;
         return;
       }
       collisions++;
