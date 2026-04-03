@@ -3,27 +3,17 @@
 #include <iostream>
 #include <limits>
 #include "adts/tabla/hashCdblHash_table.cpp"
-#include "adts/lista/linked_list.cpp"
-#include "funciones/hash/string_hash.cpp"
-
-using namespace std;
-
-#include <cassert>
-#include <string>
-#include <iostream>
-#include <limits>
-#include "adts/tabla/hashCdblHash_table.cpp"
 #include "funciones/hash/string_hash.cpp"
 
 using namespace std;
 
 struct Jugador {
-    int puntajeFinal;
-    int puntajeParcial;
+    int ptsFinal;
+    int ptsParcial;
 
     Jugador() {
-        puntajeFinal = 0;
-        puntajeParcial = 0;
+        ptsFinal = 0;
+        ptsParcial = 0;
     }
 };
 
@@ -35,16 +25,13 @@ int main() {
 
     string* jugadorRonda = new string[rondas];
     int* cambios = new int[rondas];
-
-    // Para poder recorrer luego los jugadores únicos
     string* jugadores = new string[rondas];
     int cantJugadores = 0;
 
     string_hash* h = new string_hash();
     hashCdblHash_table<string, Jugador> tabla(rondas, h);
 
-    // Primera pasada: guardar rondas y acumular puntajes finales
-    for (int i = 0; i < rondas; i++) {
+    for (int i = 0; i < rondas; i++) { //leemos txt y guardamos puntajes finales
         string nombre;
         int pts;
         cin >> nombre >> pts;
@@ -54,38 +41,35 @@ int main() {
 
         if (!tabla.contains(nombre)) {
             Jugador j;
-            j.puntajeFinal = pts;
+            j.ptsFinal = pts;
             tabla.set(nombre, j);
 
             jugadores[cantJugadores] = nombre;
             cantJugadores++;
         } else {
             Jugador j = tabla.get(nombre);
-            j.puntajeFinal += pts;
+            j.ptsFinal += pts;
             tabla.set(nombre, j);
         }
     }
-
-    // Hallar máximo final
     int maxFinal = numeric_limits<int>::min();
 
-    for (int i = 0; i < cantJugadores; i++) {
+    for (int i = 0; i < cantJugadores; i++) { //obtenemos el puntaje máximo
         Jugador j = tabla.get(jugadores[i]);
-        if (j.puntajeFinal > maxFinal) {
-            maxFinal = j.puntajeFinal;
+        if (j.ptsFinal > maxFinal) {
+            maxFinal = j.ptsFinal;
         }
     }
 
-    // Segunda pasada: reconstruir puntajes parciales
-    for (int i = 0; i < rondas; i++) {
+    for (int i = 0; i < rondas; i++) { //reconstruimos puntajes parciales ronda a ronda
         string nombre = jugadorRonda[i];
-        int delta = cambios[i];
+        int sumaRonda = cambios[i];
 
         Jugador j = tabla.get(nombre);
-        j.puntajeParcial += delta;
+        j.ptsParcial += sumaRonda;
         tabla.set(nombre, j);
 
-        if (j.puntajeFinal == maxFinal && j.puntajeParcial >= maxFinal) {
+        if (j.ptsFinal == maxFinal && j.ptsParcial >= maxFinal) {
             cout << nombre << endl;
             break;
         }
@@ -94,7 +78,6 @@ int main() {
     delete[] jugadorRonda;
     delete[] cambios;
     delete[] jugadores;
-    delete h;
 
     return 0;
 }

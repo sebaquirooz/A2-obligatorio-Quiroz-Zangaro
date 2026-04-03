@@ -1,0 +1,3 @@
+2 1
+planet0 planet1 891
+planet0 planet1

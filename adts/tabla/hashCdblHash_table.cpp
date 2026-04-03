@@ -33,6 +33,7 @@ public:
   hashCdblHash_table(int expectedSize, hash_func<K> *h) {
     this->h = h;
     this->bucketCount = expectedSize * 2 - 1;
+    if (this->bucketCount < 3) this->bucketCount = 3; //arregla problema tabla de tamaño 1. en tests/ejercicio2/minimo.in.txt nos quedaba una tabla de tamaño 1, y al hacer fPos, en h2 nos hacia un % 0.
     this->buckets = new kv_pair *[this->bucketCount]();
   }
 

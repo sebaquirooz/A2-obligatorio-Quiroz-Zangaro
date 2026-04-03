@@ -1,0 +1,17 @@
+10 15
+planet0 planet1 977
+planet1 planet2 639
+planet2 planet3 885
+planet0 planet4 679
+planet3 planet5 848
+planet3 planet6 976
+planet0 planet7 54
+planet3 planet8 368
+planet4 planet9 691
+planet6 planet4 908
+planet8 planet6 63
+planet5 planet6 879
+planet2 planet8 425
+planet0 planet2 278
+planet3 planet0 474
+planet0 planet9

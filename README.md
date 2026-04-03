@@ -25,8 +25,17 @@ Para compilar tu código, puedes usar el siguiente comando en la terminal:
 g++ -std=c++11 -o nombre_del_ejecutable tu_archivo_fuente.cpp
 ```
 
-Para ejecutar tu programa:
+Para ejecutarlo
+```bash
+./nombre_del_ejecutable < tests/ejercicioX/nombre_prueba.myin.txt > test.myout.txt
+```
+
+Para verificar
+```bash
+diff test.myout.txt tests/ejercicioX/tests/ejercicioX/nombre_prueba.myout.txt
+```
+ó
 
 ```bash
-./nombre_del_ejecutable
+./nombre_del_ejecutable < tests/ejercicioX/nombre_prueba.in.txt > test.myout.txt && diff test.myout.txt tests/ejercicioX/tests/ejercicioX/nombre_prueba.out.txt
 ```
