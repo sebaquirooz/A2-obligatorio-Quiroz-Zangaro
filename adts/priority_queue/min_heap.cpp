@@ -34,46 +34,35 @@ private:
     arr[a] = aux;
   }
 
-  void siftUp(int pos) { 
-    if (pos <= 0 || pos > count) assert(false); 
-    if (parent(pos) == 1) return;
-    if (arr[parent(pos)]->prio <= arr[pos]->prio) return;
-    //if (arr[parent(pos)]->prio > arr[pos]->prio){
-    else{
-        int parent = parent(pos);
-        swap(pos, parent)
-    }
-   }
-  void siftDown(int pos) { 
-    if(pos <= 0 || pos > count) assert(false);
-    int posLC = leftChild(pos);
-    int posRC = rigthChild(pos);
-    int menor = pos;
+  void siftUp(int pos) {
+        if (pos <= 0 || pos > count) assert(false);
+        if (pos == 1) return;
 
-    if (!arr[posLC] && !arr[posRC]) return;
-    
-    if (arr[posLC]->prio <= arr[posRC]->prio && arr[posLC]->prio < arr[pos]->prio){
-        menor = posLC;
+        int p = parent(pos);
+        if (arr[p].prio <= arr[pos].prio) return;
+
+        swap(pos, p);
+        siftUp(p);
     }
-    if (arr[posRC]->prio < arr[posLC]->prio && arr[posRC]->prio < arr[pos]->prio){
-        menor = posRC;   
-    }
-    /*else if (!arr[posLC]){
-        if (arr[posRC]->prio < arr[pos]->prio){
+  void siftDown(int pos) {
+        if (pos <= 0 || pos > count) assert(false);
+
+        int posLC = leftChild(pos);
+        int posRC = rightChild(pos);
+
+        if (posLC > count) return; // no hijos
+
+        int menor = posLC;
+
+        if (posRC <= count && arr[posRC].prio < arr[posLC].prio) {
             menor = posRC;
         }
-    }
-    else {
-        if (arr[posLC]->prio < arr[pos]->prio){
-            menor = posLC;
+
+        if (arr[menor].prio < arr[pos].prio) {
+            swap(menor, pos);
+            siftDown(menor);
         }
-    }*/
-    if (menor == pos) return;
-        swap(menor, pos);
-        siftDown(menor);
-    
-  
-  }
+    }
 
   void resize(int newSize) {
     pair *oldArr = this->arr;
@@ -84,7 +73,7 @@ private:
       this->arr[i] = oldArr[i];
     }
 
-    // delete oldArr
+    delete[] oldArr;
   }
 
 public:
