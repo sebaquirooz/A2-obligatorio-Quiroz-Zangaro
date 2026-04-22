@@ -2,7 +2,7 @@
 
 #include "./priority_queue.cpp"
 #include <assert.h>
-#include "../funciones/enteros.cpp"
+#include "../../funciones/enteros.cpp"
 
 template <class E, class P> class max_heap : public priority_queue<E, P> {
 private:
