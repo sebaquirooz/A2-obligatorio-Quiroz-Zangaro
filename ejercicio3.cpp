@@ -31,6 +31,13 @@ struct Paciente {
     int urgencia;
     int nroIngreso;
 
+    Paciente() {
+        nro = 0;
+        hora = 0;
+        urgencia = 0;
+        nroIngreso = 0;
+    }
+
     Paciente(int nroP, int horaP, int urgenciaP, int nroIngresoP) {
         nro = nroP;
         hora = horaP;
@@ -66,13 +73,9 @@ int main()
 
     while(!heap.isEmpty()) {
         Paciente p = heap.pop();
-        cout << p.nro << std::endl;
+        cout << p.nro << endl;
     }
 
-
-
-
-    // TODO
     return 0;
 }   
 

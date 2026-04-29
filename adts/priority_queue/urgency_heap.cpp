@@ -10,15 +10,17 @@ private:
     E elem;
     P prio;
 
+    pair() {}
+
     pair(E elem) {
-      this->elem = elem;
+        this->elem = elem;
     }
 
     pair(E elem, P prio) {
-      this->elem = elem;
-      this->prio = prio;
+        this->elem = elem;
+        this->prio = prio;
     }
-  };
+};
 
   pair *arr;
   int arrSize;
@@ -51,7 +53,7 @@ private:
   }
 
   void siftDown(int pos) {
-    if (pos <= 0 || pos > count) assert(false);
+    assert(pos  >=1 && pos <= count);
 
     int posLC = leftChild(pos);
     int posRC = rightChild(pos);
