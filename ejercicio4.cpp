@@ -66,6 +66,8 @@ int dijkstraCP(adj_list_graph &g, int origen, int destino)
                     }
                 }
             }
+
+            delete it;
         }
     }
 
@@ -116,6 +118,7 @@ int main()
     int hasta = ids.get(destino);
 
     cout << dijkstraCP(g, desde, hasta) << '\n'; // No hace falta a nivel de output, pero los tests todos tienen un \n extra
+    delete h;
     return 0;
 }
 

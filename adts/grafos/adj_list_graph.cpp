@@ -28,6 +28,16 @@ public:
     }
   }
 
+  virtual ~adj_list_graph()
+{
+  for (int i = 1; i <= this->vertexCount; i++)
+  {
+    delete this->arr[i];
+  }
+
+  delete[] this->arr;
+}
+
   virtual void addEdge(int from, int to) override
   {
     addWeightedEdge(from, to, 1);
@@ -35,7 +45,6 @@ public:
 
   virtual void addWeightedEdge(int from, int to, int weight) override
   {
-    removeEdge(from, to);
 
     edge e = edge(from, to, weight);
     this->arr[from]->add(e);

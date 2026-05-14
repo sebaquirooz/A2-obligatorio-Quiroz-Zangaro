@@ -84,6 +84,10 @@ public:
     this->arrSize = expectedSize + 1;
   }
 
+  virtual ~min_heap() {
+    delete[] this->arr;
+  }
+
   virtual bool isEmpty() override { return this->count == 0; }
   virtual int size() override { return this->count; }
     virtual void push(E elem, P prio) override {
