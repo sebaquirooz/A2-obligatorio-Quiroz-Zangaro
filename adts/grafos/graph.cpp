@@ -26,11 +26,12 @@ public:
   // (es decir, el tamano de la primer dimension de la matriz)
   virtual int vertices() = 0;
   virtual int countEdges() = 0;
-  virtual iterator<edge> *edges() = 0;
+
+  virtual Iterador<edge> *edges() = 0;
   // PRE: existe v
   // POS: -
   // RET: iterador sobre las aristas que salen de v
-  virtual iterator<edge> *neighbors(int v) = 0;
+  virtual Iterador<edge> *neighbors(int v) = 0;
   // PRE: -
   // POS: -
   // RET: Una nueva matriz de adyacencia
