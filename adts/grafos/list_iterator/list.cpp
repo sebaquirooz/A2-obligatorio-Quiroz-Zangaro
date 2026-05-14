@@ -2,7 +2,8 @@
 
 #include "../../iterator/iterator.cpp"
 
-template <class T> class list : public iterable<T> {
+template <class T>
+class list : public Iterable<T> {
 public:
   virtual void add(T data) = 0;
   virtual void remove(T data) = 0;
@@ -12,4 +13,5 @@ public:
   virtual T get(int pos) = 0;
   virtual bool isEmpty() = 0;
   virtual int size() = 0;
+  virtual ~list() {}
 };
