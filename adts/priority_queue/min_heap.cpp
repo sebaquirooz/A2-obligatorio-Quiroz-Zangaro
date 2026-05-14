@@ -10,6 +10,7 @@ private:
     E elem;
     P prio;
 
+    pair() : elem(), prio() {} //cambio 1
     pair(E elem) { this->elem = elem; }
 
     pair(E elem, P prio) {
@@ -85,7 +86,21 @@ public:
 
   virtual bool isEmpty() override { return this->count == 0; }
   virtual int size() override { return this->count; }
-  virtual void push(E elem, P prio) override {
+    virtual void push(E elem, P prio) override {
+    if (this->count + 1 >= this->arrSize) {
+      int newCap = this->arrSize * 2;
+      if (this->count + 2 > newCap) {
+        newCap = this->count + 2;
+      }
+      resize(newCap);
+    }
+
+    this->count++;
+    this->arr[this->count] = pair(elem, prio);
+
+    siftUp(this->count);
+  }
+ /* virtual void push(E elem, P prio) override {
     if (this->count > this->arrSize) {
       resize(this->count * 2);
     }
@@ -95,11 +110,12 @@ public:
     this->arr[this->count] = p;
 
     siftUp(this->count);
-  }
+  } */
   virtual E top() override {
     assert(!isEmpty());
     return this->arr[1].elem;
   }
+  /*
   virtual E pop() override {
     assert(!isEmpty());
     E ret = this->arr[1].elem;
@@ -107,6 +123,19 @@ public:
     this->arr[1] = this->arr[this->count];
     this->count--;
     siftDown(1);
+
+    return ret;
+  }
+  */
+  virtual E pop() override {
+    assert(!isEmpty());
+    E ret = this->arr[1].elem;
+
+    this->arr[1] = this->arr[this->count];
+    this->count--;
+    if (this->count > 0) {
+      siftDown(1);
+    }
 
     return ret;
   }
