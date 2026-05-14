@@ -42,8 +42,13 @@ int main()
 
 
     }
+    string origen;
+    string destino;
+    cin >> origen >> destino;
+    int desde = ids.get(origen);
+    int hasta = ids.get(hasta);
     
-    return cout << dijkstraCP(g, );
+    return cout << dijkstraCP(g, desde, hasta);
 }
 
 int dijkstraCP(adj_list_graph& g, int origen, int destino) {
