@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <limits>
-#include "adts/priority_queue/urgency_heap.cpp"
+#include "adts/priority_queue/max_heap.cpp"
 #include "adts/priority_queue/priority_queue.cpp"
 using namespace std;
 
@@ -52,7 +52,7 @@ int main()
 {
     int pacientes;
     cin >> pacientes;
-    urgency_heap<Paciente, PrioridadUrgencia> heap(pacientes);
+    max_heap<Paciente, PrioridadUrgencia> heap(pacientes);
     for (int i = 0; i < pacientes; i++){
         int nro;
         string horaStr;
@@ -73,7 +73,7 @@ int main()
 
     while(!heap.isEmpty()) {
         Paciente p = heap.pop();
-        cout << p.nro << endl;
+        cout << p.nro << '\n';
     }
 
     return 0;
