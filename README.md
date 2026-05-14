@@ -39,5 +39,5 @@ diff test.myout.txt tests/ejercicioX/tests/ejercicioX/nombre_prueba.myout.txt
 ```bash
 ./nombre_del_ejecutable < tests/ejercicioX/nombre_prueba.in.txt > test.myout.txt && diff test.myout.txt tests/ejercicioX/tests/ejercicioX/nombre_prueba.out.txt
 archivo=ejercicioX; prueba=nombre_prueba; ./$archivo < "tests/$archivo/${prueba}.in.txt" > test.myout.txt && diff test.myout.txt "tests/$archivo/${prueba}.out.txt"
-archivo=ejercicio3; prueba=triple_empate; ./$archivo < "tests/$archivo/${prueba}.in.txt" > test.myout.txt && diff test.myout.txt "tests/$archivo/${prueba}.out.txt"
+archivo=ejercicio4; prueba=50000; ./$archivo < "tests/$archivo/${prueba}.in.txt" > test.myout.txt && diff test.myout.txt "tests/$archivo/${prueba}.out.txt"
 ```

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../functions/hash/hash_func.cpp"
-#include "../../functions/ints.cpp"
+#include "../../funciones/hash/hash_func.cpp"
+#include "../../funciones/enteros.cpp"
 #include "table.cpp"
 #include <assert.h>
 

@@ -1,3 +1,4 @@
+#pragma once
 
 int abs(int n) {
   if (n < 0) {
