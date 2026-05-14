@@ -37,7 +37,7 @@ public:
     this->buckets = new kv_pair *[this->bucketCount]();
   }
 
-  virtual void rehash(int newSize) {
+  /*virtual void rehash(int newSize) {
     kv_pair **oldArr = this->buckets;
     int oldSize = this->bucketCount;
 
@@ -50,8 +50,57 @@ public:
         this->set(pair->key, pair->value);
       }
     }
-  }
+  }*/
+    virtual void rehash(int newSize) {
+    kv_pair **oldArr = this->buckets;
+    int oldSize = this->bucketCount;
 
+    if (newSize < 3) {
+      newSize = 3;
+    }
+    this->bucketCount = newSize;
+    this->buckets = new kv_pair *[this->bucketCount]();
+    this->elementsCount = 0;
+
+    for (int i = 0; i < oldSize; i++) {
+      kv_pair *pair = oldArr[i];
+      if (pair != nullptr) {
+        if (!pair->is_deleted) {
+          this->set(pair->key, pair->value);
+        }
+        delete pair;
+      }
+    }
+    delete[] oldArr;
+  }
+  virtual void set(K key, V value) override {
+
+    int hash = this->h->hash(key);
+    for (int collisions = 0; collisions < this->bucketCount; collisions++) {
+      int pos = fPos(hash, collisions);
+      kv_pair *pair = this->buckets[pos];
+
+      if (pair == nullptr){
+        this->buckets[pos] = new kv_pair(key, value);
+        this->elementsCount++;
+        return;
+      }
+
+      if (pair->is_deleted || pair->key == key){
+        bool was_deleted = pair->is_deleted;
+        pair->key = key;
+        pair->value = value;
+        pair->is_deleted = false;
+        if (was_deleted) {
+          this->elementsCount++;
+        }
+        return;
+      }
+    }
+    this->rehash(this->bucketCount * 2 + 1);
+    this->set(key, value);
+  }
+  /*
   virtual void set(K key, V value) override {
 
     int hash = this->h->hash(key);
@@ -77,7 +126,9 @@ public:
       collisions++;
     }
   }
+  */
 
+/*
   virtual bool contains(K key) override {
 
     int hash = this->h->hash(key);
@@ -95,7 +146,24 @@ public:
       collisions++;
     }
   }
+  */
+  virtual bool contains(K key) override {
 
+    int hash = this->h->hash(key);
+    for (int collisions = 0; collisions < this->bucketCount; collisions++) {
+      int pos = fPos(hash, collisions);
+      kv_pair *pair = this->buckets[pos];
+
+      if (pair == nullptr) return false;
+
+      if (pair->key == key && !pair->is_deleted){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /*
   virtual void remove(K key) override { 
 
     int hash = this->h->hash(key);
@@ -115,7 +183,25 @@ public:
       collisions++;
     }
   }
+  */
+  virtual void remove(K key) override { 
 
+    int hash = this->h->hash(key);
+    for (int collisions = 0; collisions < this->bucketCount; collisions++) {
+      int pos = fPos(hash, collisions);
+      kv_pair *pair = this->buckets[pos];
+
+      if (pair == nullptr) assert(false);
+
+      if (pair->key == key && !pair->is_deleted){ //Evito borrar algo ya eliminado
+        pair->is_deleted = true;
+        this->elementsCount--;
+        return;
+      }
+    }
+    assert(false);
+  }
+/*
   virtual V get(K key) override {
     int hash = this->h->hash(key);
     int collisions = 0;
@@ -134,6 +220,22 @@ public:
         return pair->value;
       }
     }
+  }
+*/
+
+  virtual V get(K key) override {
+    int hash = this->h->hash(key);
+    for (int collisions = 0; collisions < this->bucketCount; collisions++) {
+      int pos = fPos(hash, collisions);
+      kv_pair *pair = this->buckets[pos];
+      if (pair == nullptr) {
+        assert(false);
+      }
+      if (!pair->is_deleted && pair->key == key) {
+        return pair->value;
+      }
+    }
+    assert(false);
   }
 
   virtual int size() override { return this->elementsCount; }
