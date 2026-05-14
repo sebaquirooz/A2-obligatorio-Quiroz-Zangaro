@@ -2,13 +2,14 @@
 
 #include "./priority_queue.cpp"
 #include <assert.h>
-#include "../../funciones/enteros.cpp"
 
 template <class E, class P> class min_heap : public priority_queue<E, P> {
 private:
   struct pair {
     E elem;
     P prio;
+
+    pair() : elem(), prio() {}
 
     pair(E elem) { this->elem = elem; }
 
@@ -86,13 +87,16 @@ public:
   virtual bool isEmpty() override { return this->count == 0; }
   virtual int size() override { return this->count; }
   virtual void push(E elem, P prio) override {
-    if (this->count > this->arrSize) {
-      resize(this->count * 2);
+    if (this->count + 1 >= this->arrSize) {
+      int newCap = this->arrSize * 2;
+      if (this->count + 2 > newCap) {
+        newCap = this->count + 2;
+      }
+      resize(newCap);
     }
 
-    pair p = new pair(elem, prio);
     this->count++;
-    this->arr[this->count] = p;
+    this->arr[this->count] = pair(elem, prio);
 
     siftUp(this->count);
   }
@@ -106,7 +110,9 @@ public:
 
     this->arr[1] = this->arr[this->count];
     this->count--;
-    siftDown(1);
+    if (this->count > 0) {
+      siftDown(1);
+    }
 
     return ret;
   }

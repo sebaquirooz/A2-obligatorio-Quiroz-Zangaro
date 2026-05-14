@@ -41,23 +41,29 @@ public:
     kv_pair **oldArr = this->buckets;
     int oldSize = this->bucketCount;
 
+    if (newSize < 3) {
+      newSize = 3;
+    }
     this->bucketCount = newSize;
     this->buckets = new kv_pair *[this->bucketCount]();
+    this->elementsCount = 0;
 
     for (int i = 0; i < oldSize; i++) {
       kv_pair *pair = oldArr[i];
-      if (pair != nullptr && !pair->is_deleted) {
-        this->set(pair->key, pair->value);
+      if (pair != nullptr) {
+        if (!pair->is_deleted) {
+          this->set(pair->key, pair->value);
+        }
+        delete pair;
       }
     }
+    delete[] oldArr;
   }
 
   virtual void set(K key, V value) override {
 
     int hash = this->h->hash(key);
-    int collisions = 0;
-
-    while (true) {
+    for (int collisions = 0; collisions < this->bucketCount; collisions++) {
       int pos = fPos(hash, collisions);
       kv_pair *pair = this->buckets[pos];
 
@@ -67,23 +73,25 @@ public:
         return;
       }
 
-      if (pair->is_deleted || pair->key == key){ 
+      if (pair->is_deleted || pair->key == key){
+        bool was_deleted = pair->is_deleted;
         pair->key = key;
         pair->value = value;
         pair->is_deleted = false;
-        if (pair->is_deleted) this->elementsCount++;
+        if (was_deleted) {
+          this->elementsCount++;
+        }
         return;
       }
-      collisions++;
     }
+    this->rehash(this->bucketCount * 2 + 1);
+    this->set(key, value);
   }
 
   virtual bool contains(K key) override {
 
     int hash = this->h->hash(key);
-    int collisions = 0;
-
-    while (true) {
+    for (int collisions = 0; collisions < this->bucketCount; collisions++) {
       int pos = fPos(hash, collisions);
       kv_pair *pair = this->buckets[pos];
 
@@ -92,16 +100,14 @@ public:
       if (pair->key == key && !pair->is_deleted){
         return true;
       }
-      collisions++;
     }
+    return false;
   }
 
   virtual void remove(K key) override { 
 
     int hash = this->h->hash(key);
-    int collisions = 0;
-
-    while (true) {
+    for (int collisions = 0; collisions < this->bucketCount; collisions++) {
       int pos = fPos(hash, collisions);
       kv_pair *pair = this->buckets[pos];
 
@@ -112,28 +118,23 @@ public:
         this->elementsCount--;
         return;
       }
-      collisions++;
     }
+    assert(false);
   }
 
   virtual V get(K key) override {
     int hash = this->h->hash(key);
-    int collisions = 0;
-
-    while (true) {
+    for (int collisions = 0; collisions < this->bucketCount; collisions++) {
       int pos = fPos(hash, collisions);
       kv_pair *pair = this->buckets[pos];
       if (pair == nullptr) {
-        // null es que no lo encontramos, no cumple la
-        // precondicion de pertenecer, entonces que explote
         assert(false);
       }
-      if (pair->is_deleted || pair->key != key) {
-        collisions++;
-      } else {
+      if (!pair->is_deleted && pair->key == key) {
         return pair->value;
       }
     }
+    assert(false);
   }
 
   virtual int size() override { return this->elementsCount; }
