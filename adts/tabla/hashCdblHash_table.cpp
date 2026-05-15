@@ -27,27 +27,6 @@ private:
   int bucketCount;
   int elementsCount = 0;
 
-  bool isPrime(int n)
-  {
-    if (n < 2) return false;
-    if (n == 2) return true;
-    if (n % 2 == 0) return false;
-    for (int i = 3; i * i <= n; i += 2)
-    {
-      if (n % i == 0) return false;
-    }
-    return true;
-  }
-
-  int nextPrime(int n)
-  {
-    while (!isPrime(n))
-    {
-      n++;
-    }
-    return n;
-  }
-
   int fPos(int hash, int collisions)
   {
     int h1 = abs(hash) % this->bucketCount;
@@ -59,7 +38,7 @@ public:
   hashCdblHash_table(int expectedSize, hash_func<K> *h)
   {
     this->h = h;
-    this->bucketCount = nextPrime(expectedSize * 2 + 1);
+    this->bucketCount = expectedSize * 2 - 1;
     if (this->bucketCount < 3)
       this->bucketCount = 3; // arregla problema tabla de tamaño 1. en tests/ejercicio2/minimo.in.txt nos quedaba una tabla de tamaño 1, y al hacer fPos, en h2 nos hacia un % 0.
     this->buckets = new kv_pair *[this->bucketCount]();
@@ -69,7 +48,7 @@ public:
     kv_pair **oldArr = this->buckets;
     int oldSize = this->bucketCount;
 
-    this->bucketCount = nextPrime(newSize);
+    this->bucketCount = newSize;
     this->buckets = new kv_pair *[this->bucketCount]();
 
     for (int i = 0; i < oldSize; i++) {
@@ -88,7 +67,7 @@ public:
     {
       newSize = 3;
     }
-    this->bucketCount = nextPrime(newSize);
+    this->bucketCount = newSize;
     this->buckets = new kv_pair *[this->bucketCount]();
     this->elementsCount = 0;
 
