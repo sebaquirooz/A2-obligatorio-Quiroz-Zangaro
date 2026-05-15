@@ -43,23 +43,14 @@ private:
   };
 
   node *head = nullptr;
+  node *tail = nullptr;
   int length = 0;
 
 public:
-  linked_list() {}
-
-  virtual ~linked_list()
+  linked_list()
   {
-    node *actual = this->head;
-
-    while (actual != nullptr)
-    {
-      node *siguiente = actual->next;
-      delete actual;
-      actual = siguiente;
-    }
-
     this->head = nullptr;
+    this->tail = nullptr;
     this->length = 0;
   }
 
@@ -75,17 +66,12 @@ public:
     if (this->head == nullptr)
     {
       this->head = nuevo;
+      this->tail = nuevo;
     }
     else
     {
-      node *aux = this->head;
-
-      while (aux->next != nullptr)
-      {
-        aux = aux->next;
-      }
-
-      aux->next = nuevo;
+      this->tail->next = nuevo;
+      this->tail = nuevo;
     }
 
     this->length++;
@@ -100,8 +86,10 @@ public:
     {
       node *aBorrar = this->head;
       this->head = this->head->next;
+      if (this->tail == aBorrar) this->tail = this->head;
       delete aBorrar;
       this->length--;
+      if (this->length == 0) this->tail = nullptr;
       return;
     }
 
@@ -116,8 +104,10 @@ public:
     {
       node *aBorrar = aux->next;
       aux->next = aux->next->next;
+      if (this->tail == aBorrar) this->tail = aux;
       delete aBorrar;
       this->length--;
+      if (this->length == 0) this->tail = nullptr;
     }
   }
 
@@ -129,8 +119,10 @@ public:
     {
       node *aBorrar = this->head;
       this->head = this->head->next;
+      if (this->tail == aBorrar) this->tail = this->head;
       delete aBorrar;
       this->length--;
+      if (this->length == 0) this->tail = nullptr;
       return;
     }
 
@@ -143,8 +135,10 @@ public:
 
     node *aBorrar = aux->next;
     aux->next = aux->next->next;
+    if (this->tail == aBorrar) this->tail = aux;
     delete aBorrar;
     this->length--;
+    if (this->length == 0) this->tail = nullptr;
   }
 
   virtual bool exists(T data) override

@@ -10,7 +10,10 @@ private:
     E elem;
     P prio;
 
-    pair() : elem(), prio() {} //cambio 1
+    pair() {
+      this->elem = E();
+      this->prio = P();
+    }
     pair(E elem) { this->elem = elem; }
 
     pair(E elem, P prio) {
@@ -82,10 +85,6 @@ public:
     this->arr = new pair[expectedSize + 1];
     this->count = 0;
     this->arrSize = expectedSize + 1;
-  }
-
-  virtual ~min_heap() {
-    delete[] this->arr;
   }
 
   virtual bool isEmpty() override { return this->count == 0; }

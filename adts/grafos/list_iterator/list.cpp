@@ -13,5 +13,4 @@ public:
   virtual T get(int pos) = 0;
   virtual bool isEmpty() = 0;
   virtual int size() = 0;
-  virtual ~list() {}
 };

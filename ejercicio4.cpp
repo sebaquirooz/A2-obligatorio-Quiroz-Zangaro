@@ -47,7 +47,7 @@ int dijkstraCP(adj_list_graph &g, int origen, int destino)
                 return respuesta;
             }
 
-            Iterador<edge> *it = g.neighbors(v); //Esto para que use nuestro iterador, no el de std-
+            Iterator<edge> *it = g.neighbors(v); //Esto para que use nuestro iterador, no el de std-
 
             while (it->hasNext())
             {
@@ -79,6 +79,7 @@ int dijkstraCP(adj_list_graph &g, int origen, int destino)
 
 int main()
 {
+
     int planetas;
     int portales;
     cin >> planetas;

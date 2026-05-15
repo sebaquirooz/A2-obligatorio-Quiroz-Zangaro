@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../iterator/iterator.cpp"
-#include "./list_iterator/linked_list.cpp"
+#include "../lista/linked_list.cpp"
 #include "./graph.cpp"
 #include <assert.h>
 
@@ -28,16 +28,6 @@ public:
     }
   }
 
-  virtual ~adj_list_graph()
-{
-  for (int i = 1; i <= this->vertexCount; i++)
-  {
-    delete this->arr[i];
-  }
-
-  delete[] this->arr;
-}
-
   virtual void addEdge(int from, int to) override
   {
     addWeightedEdge(from, to, 1);
@@ -61,7 +51,7 @@ public:
     bool removed = false;
 
     list<edge> *nuevaLista = new linked_list<edge>();
-    Iterador<edge> *itFrom = neighbors(from);
+    Iterator<edge> *itFrom = neighbors(from);
 
     while (itFrom->hasNext())
     {
@@ -82,7 +72,7 @@ public:
     if (!this->isDirected && from != to)
     {
       list<edge> *nuevaLista2 = new linked_list<edge>();
-      Iterador<edge> *itTo = neighbors(to);
+      Iterator<edge> *itTo = neighbors(to);
 
       while (itTo->hasNext())
       {
@@ -109,7 +99,7 @@ public:
 
   virtual bool hasEdge(int from, int to) override
   {
-    Iterador<edge> *it = neighbors(from);
+    Iterator<edge> *it = neighbors(from);
     while (it->hasNext())
     {
       edge e = it->next();
@@ -123,7 +113,7 @@ public:
   }
   virtual int getWeight(int from, int to) override
   {
-    Iterador<edge> *it = neighbors(from);
+    Iterator<edge> *it = neighbors(from);
     while (it->hasNext())
     {
       edge e = it->next();
@@ -137,13 +127,13 @@ public:
   }
   virtual int vertices() override { return this->vertexCount; }
   virtual int countEdges() override { return this->edgeCount; }
-  virtual Iterador<edge> *edges() override
+  virtual Iterator<edge> *edges() override
   {
     list<edge> *listaAristas = new linked_list<edge>();
 
     for (int i = 1; i <= this->vertexCount; i++)
     {
-      Iterador<edge> *iter = neighbors(i);
+      Iterator<edge> *iter = neighbors(i);
 
       while (iter->hasNext())
       {
@@ -163,11 +153,11 @@ public:
       }
     }
 
-    return listaAristas->iterador();
+    return listaAristas->getIterator();
   }
-  virtual Iterador<edge> *neighbors(int v) override
+  virtual Iterator<edge> *neighbors(int v) override
   {
-    return this->arr[v]->iterador();
+    return this->arr[v]->getIterator();
   }
   virtual int **buildMatrix() override
   {
@@ -185,7 +175,7 @@ public:
 
     for (int i = 1; i <= this->vertexCount; i++)
     {
-      Iterador<edge> *iter = neighbors(i);
+      Iterator<edge> *iter = neighbors(i);
 
       while (iter->hasNext())
       {
