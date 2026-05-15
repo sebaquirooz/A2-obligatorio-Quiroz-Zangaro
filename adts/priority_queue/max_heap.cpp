@@ -10,7 +10,10 @@ private:
         E elem;
         P prio;
 
-        pair() {}
+        pair() {
+            this->elem = E();
+            this->prio = P();
+        }
 
         pair(E elem, P prio) {
             this->elem = elem;

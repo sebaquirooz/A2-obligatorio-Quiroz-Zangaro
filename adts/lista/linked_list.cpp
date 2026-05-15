@@ -1,6 +1,7 @@
 #pragma once
 
 #include "./list.cpp"
+#include <cassert>
 
 template <class T>
 class linked_list : public list<T>
@@ -12,28 +13,57 @@ private:
       node *next;
    };
 
-   node *head = nullptr;
-   int length = 0;
+
+class linked_list_iterator : public Iterator<T> {
+  private:
+    node *curr;
+
+  public:
+    linked_list_iterator(node *head) { this->curr = head; }
+
+    virtual bool hasNext() override { return this->curr != nullptr; }
+
+    virtual T next() override {
+      assert(hasNext());
+      T ret = this->curr->data;
+      this->curr = this->curr->next;
+      return ret;
+    }
+  };
+
+  node *head = nullptr;
+  node *tail = nullptr;
+  int length = 0;
+
+  virtual Iterator<T> *getIterator() override {
+    return new linked_list_iterator(this->head);
+  }
 
 public:
-   linked_list() {}
+   linked_list()
+   {
+      this->head = nullptr;
+      this->tail = nullptr;
+      this->length = 0;
+   }
 
    virtual void add(T data) override
+{
+   node *nuevo = new node{data, nullptr};
+
+   if (this->head == nullptr)
    {
-      if (this->head == nullptr)
-      {
-         this->head = new node{};
-         this->head->data = data;
-         this->head->next = nullptr;
-      }
-      else
-      {
-         node *aux = this->head;
-         while (aux->next) aux = aux->next;
-         aux->next = new node{data, nullptr};
-      }
-      this->length++;
+      this->head = nuevo;
+      this->tail = nuevo;
    }
+   else
+   {
+      this->tail->next = nuevo;
+      this->tail = nuevo;
+   }
+
+   this->length++;
+}
 
    virtual void remove(T data) override
    {
@@ -48,9 +78,11 @@ public:
          {
             if (!ant) this->head = aux->next;
             else ant->next = aux->next;
+            if (this->tail == aux) this->tail = ant;
 
             delete aux;
             this->length--;
+            if (this->length == 0) this->tail = nullptr;
             return;
          }
          else{
@@ -68,8 +100,10 @@ public:
       if (pos == 0)
       {
          this->head = aux->next;
+         if (this->tail == aux) this->tail = this->head;
          this->length--;
          delete aux;
+         if (this->length == 0) this->tail = nullptr;
          return;
       }
       for (int i = 0; i < pos; i++) 
@@ -78,8 +112,10 @@ public:
             aux = aux->next;
          }
       prev->next = aux->next;
+      if (this->tail == aux) this->tail = prev;
       delete aux;
       this->length--;
+      if (this->length == 0) this->tail = nullptr;
       return;
    }
 
@@ -117,12 +153,18 @@ public:
    }
 
    virtual T get(int pos) override
+{
+   assert(pos >= 0 && pos < this->length);
+
+   node *aux = this->head;
+
+   for (int i = 0; i < pos; i++)
    {
-      if (pos >= this->length || pos < 0) return T{};
-      node *aux = this->head;
-      for (int i = 0; i < pos; i++) aux = aux->next;
-      return aux->data;
+      aux = aux->next;
    }
+
+   return aux->data;
+}
 
    virtual bool isEmpty() override
    {
@@ -134,4 +176,3 @@ public:
       return this->length;
    }
 };
-

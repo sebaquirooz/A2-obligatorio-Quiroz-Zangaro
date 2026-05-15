@@ -44,16 +44,6 @@ public:
     this->buckets = new kv_pair *[this->bucketCount]();
   }
 
-  virtual ~hashCdblHash_table()
-  {
-    for (int i = 0; i < this->bucketCount; i++)
-    {
-      delete this->buckets[i];
-    }
-
-    delete[] this->buckets;
-  }
-
   /*virtual void rehash(int newSize) {
     kv_pair **oldArr = this->buckets;
     int oldSize = this->bucketCount;
