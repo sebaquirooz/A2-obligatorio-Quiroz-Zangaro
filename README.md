@@ -40,4 +40,10 @@ diff test.myout.txt tests/ejercicioX/tests/ejercicioX/nombre_prueba.myout.txt
 ./nombre_del_ejecutable < tests/ejercicioX/nombre_prueba.in.txt > test.myout.txt && diff test.myout.txt tests/ejercicioX/tests/ejercicioX/nombre_prueba.out.txt
 archivo=ejercicioX; prueba=nombre_prueba; ./$archivo < "tests/$archivo/${prueba}.in.txt" > test.myout.txt && diff test.myout.txt "tests/$archivo/${prueba}.out.txt"
 archivo=ejercicio3; prueba=triple_empate; ./$archivo < "tests/$archivo/${prueba}.in.txt" > test.myout.txt && diff test.myout.txt "tests/$archivo/${prueba}.out.txt"
+
+archivo=ejercicio5
+prueba=bipartito_100000
+
+time ./$archivo < "tests/$archivo/${prueba}.in.txt" > test.myout.txt
+diff test.myout.txt "tests/$archivo/${prueba}.out.txt"
 ```
