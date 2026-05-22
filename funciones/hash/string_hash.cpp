@@ -7,7 +7,7 @@ class string_hash : public hash_func<std::string> {
         int hash(std::string palabra) override {
             int a = 0;
             for (char c : palabra) {
-                a = a * 31 + c;
+                a = a * 37 + c;
             }
             return a;
         }
