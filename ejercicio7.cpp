@@ -88,7 +88,6 @@ int main()
         cin >> tiempoCa;
         tiempos[i]+= tiempoCa;
     }
-    cout << "-----------" << endl;
     mergeSort(tiempos, competidores, 0, l-1);
     for (int i = 0; i < l ;i++){
         cout << competidores[i] << endl;
