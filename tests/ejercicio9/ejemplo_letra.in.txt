@@ -1,0 +1,7 @@
+5
+10 12 11 2 2
+3 2 4 8 supervivencia
+2 2 3 6 supervivencia
+2 3 2 5 comida
+3 4 3 7 comida
+4 3 5 9 supervivencia

@@ -248,23 +248,24 @@ public:
     }
   */
 
-  virtual V get(K key) override
-  {
+ virtual V get(K key) override {
     int hash = this->h->hash(key);
-    for (int collisions = 0; collisions < this->bucketCount; collisions++)
-    {
+    int collisions = 0;
+
+    while (true) {
       int pos = fPos(hash, collisions);
       kv_pair *pair = this->buckets[pos];
-      if (pair == nullptr)
-      {
+      if (pair == nullptr) {
+        // null es que no lo encontramos, no cumple la
+        // precondicion de pertenecer, entonces que explote
         assert(false);
       }
-      if (!pair->is_deleted && pair->key == key)
-      {
+      if (pair->is_deleted || pair->key != key) {
+        collisions++;
+      } else {
         return pair->value;
       }
     }
-    assert(false);
   }
 
   virtual int size() override { return this->elementsCount; }

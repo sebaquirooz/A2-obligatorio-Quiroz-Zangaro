@@ -1,0 +1,22 @@
+20
+1 1 1 20 20
+50 50 50 7 comida
+50 50 50 1 comida
+50 50 50 10 supervivencia
+50 50 50 5 comida
+50 50 50 3 comida
+50 50 50 10 comida
+50 50 50 6 comida
+50 50 50 6 comida
+50 50 50 5 supervivencia
+50 50 50 3 supervivencia
+50 50 50 1 comida
+50 50 50 5 comida
+50 50 50 5 supervivencia
+50 50 50 1 supervivencia
+50 50 50 6 supervivencia
+50 50 50 4 supervivencia
+50 50 50 9 supervivencia
+50 50 50 1 comida
+50 50 50 8 supervivencia
+50 50 50 3 comida

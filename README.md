@@ -42,7 +42,7 @@ archivo=ejercicioX; prueba=nombre_prueba; ./$archivo < "tests/$archivo/${prueba}
 archivo=ejercicio3; prueba=triple_empate; ./$archivo < "tests/$archivo/${prueba}.in.txt" > test.myout.txt && diff test.myout.txt "tests/$archivo/${prueba}.out.txt"
 
 archivo=ejercicio4
-prueba=100000
+prueba=desconectado
 
 time ./$archivo < "tests/$archivo/${prueba}.in.txt" > test.myout.txt
 diff test.myout.txt "tests/$archivo/${prueba}.out.txt"
