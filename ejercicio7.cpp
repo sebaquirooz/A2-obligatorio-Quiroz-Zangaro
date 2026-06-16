@@ -18,7 +18,7 @@ void merge(int*& tiempos, int*& competidores, int izq, int mid, int der){ //merg
         auxt1[i] = tiempos[izq + i];
         auxc1[i] = competidores[izq + i];
     }
-    for (int i = 0; i < a ; i++) {
+    for (int i = 0; i < b ; i++) {
         auxt2[i] = tiempos[mid + 1 + i];
         auxc2[i] = competidores[mid + 1 + i];
     }
@@ -45,12 +45,14 @@ void merge(int*& tiempos, int*& competidores, int izq, int mid, int der){ //merg
         tiempos[k] = auxt1[i];
         competidores[k] = auxc1[i];
         i++;
+        k++;
     }
 
     while (j < b) {
         tiempos[k] = auxt2[j];
         competidores[k] = auxc2[j];
         j++;
+        k++;
     }
 }
 
