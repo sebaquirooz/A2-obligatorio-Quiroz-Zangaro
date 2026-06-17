@@ -8,7 +8,7 @@ import subprocess
 import time
 
 COMPILADOR = "g++"
-FLAGS = ["-std=c++11"]
+FLAGS = ["-std=c++17"]
 MAX_EJERCICIOS = 50
 POSIBLES_CARPETAS_TEST = ["tests", "test", "Tests", "Test"]
 
@@ -111,7 +111,7 @@ def correr():
     ok = 0
     encontrados = 0
 
-    for i in range(7, MAX_EJERCICIOS + 1):
+    for i in range(10, MAX_EJERCICIOS + 1):
         cpp = f"ejercicio{i}.cpp"
         exe = f"ejercicio{i}.exe" if os.name == "nt" else f"./ejercicio{i}"
 
