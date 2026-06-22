@@ -111,7 +111,7 @@ def correr():
     ok = 0
     encontrados = 0
 
-    for i in range(10, MAX_EJERCICIOS + 1):
+    for i in range(6, MAX_EJERCICIOS + 1):
         cpp = f"ejercicio{i}.cpp"
         exe = f"ejercicio{i}.exe" if os.name == "nt" else f"./ejercicio{i}"
 
