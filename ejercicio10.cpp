@@ -67,11 +67,8 @@ bool countdown(int* valores, int n, int obj)
                     int* nuevosValores = nuevaBaraja(valores, n, i, j, nuevo);
 
                     if (countdown(nuevosValores, n - 1, obj)) {
-                        delete[] nuevosValores;
                         return true;
                     }
-
-                    delete[] nuevosValores;
                 }
             }
         }
@@ -95,8 +92,6 @@ int main()
     cin >> obj;
 
     cout << countdown(valores, n, obj);
-
-    delete[] valores;
 
     return 0;
 }

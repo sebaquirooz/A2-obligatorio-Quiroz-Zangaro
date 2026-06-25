@@ -6,8 +6,8 @@
 using namespace std;
 
 struct Punto {
-    long long x;
-    long long y;
+    long x;
+    long y;
 };
 
 bool menorPorX(Punto a, Punto b) {
@@ -20,9 +20,9 @@ bool menorPorY(Punto a, Punto b) {
     return a.x < b.x;
 }
 
-long long distanciaCuadrada(Punto a, Punto b) {
-    long long dx = a.x - b.x;
-    long long dy = a.y - b.y;
+long distanciaCuadrada(Punto a, Punto b) {
+    long dx = a.x - b.x;
+    long dy = a.y - b.y;
 
     return dx * dx + dy * dy;
 }
@@ -118,7 +118,7 @@ void ordenarPorYBase(Punto* puntos, int ini, int fin) {
     }
 }
 
-bool resolver(Punto* puntos, Punto* aux, Punto* franja, int ini, int fin, long long d2) {
+bool resolver(Punto* puntos, Punto* aux, Punto* franja, int ini, int fin, long d2) {
     int cantidad = fin - ini + 1;
 
     if (cantidad <= 1) {
@@ -139,7 +139,7 @@ bool resolver(Punto* puntos, Punto* aux, Punto* franja, int ini, int fin, long l
     }
 
     int medio = (ini + fin) / 2;
-    long long xMedio = puntos[medio].x;
+    long xMedio = puntos[medio].x;
 
     if (resolver(puntos, aux, franja, ini, medio, d2)) {
         return true;
@@ -154,7 +154,7 @@ bool resolver(Punto* puntos, Punto* aux, Punto* franja, int ini, int fin, long l
     int cantFranja = 0;
 
     for (int i = ini; i <= fin; i++) {
-        long long dx = puntos[i].x - xMedio;
+        long dx = puntos[i].x - xMedio;
 
         if (dx * dx <= d2) {
             franja[cantFranja] = puntos[i];
@@ -164,7 +164,7 @@ bool resolver(Punto* puntos, Punto* aux, Punto* franja, int ini, int fin, long l
 
     for (int i = 0; i < cantFranja; i++) {
         for (int j = i + 1; j < cantFranja; j++) {
-            long long dy = franja[j].y - franja[i].y;
+            long dy = franja[j].y - franja[i].y;
 
             if (dy * dy > d2) {
                 break;
@@ -179,7 +179,7 @@ bool resolver(Punto* puntos, Punto* aux, Punto* franja, int ini, int fin, long l
     return false;
 }
 
-bool existeParCritico(Punto* puntos, int n, long long d) {
+bool existeParCritico(Punto* puntos, int n, long d) {
     if (n < 2) return false;
 
     Punto* aux = new Punto[n];
@@ -187,7 +187,7 @@ bool existeParCritico(Punto* puntos, int n, long long d) {
 
     mergeSortPorX(puntos, aux, 0, n - 1);
 
-    long long d2 = d * d;
+    long d2 = d * d;
 
     bool resultado = resolver(puntos, aux, franja, 0, n - 1, d2);
 
@@ -196,7 +196,7 @@ bool existeParCritico(Punto* puntos, int n, long long d) {
 
 int main() {
     int n;
-    long long d;
+    long d;
 
     cin >> n >> d;
 

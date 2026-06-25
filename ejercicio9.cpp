@@ -44,18 +44,18 @@ Estado mochila(int maxP, int maxV, int maxC, int S, int M, int cantElem, int* pe
                     for (int s=0; s<=S; s++) {
                         for (int m=0; m<=M; m++) {
 
-                            Estado no = tab[i-1][p][v][c][s][m];
+                            Estado aux = tab[i-1][p][v][c][s][m];
                             Estado usar;
                             usar.valor = -1;
                             usar.peso  = 0;
-                            usar.cant  = 0;; // valor -1 = inválido, nunca gana
+                            usar.cant  = 0;
 
                             int pesoI  = pesos[i-1];
                             int volI   = volumen[i-1];
                             int costoI = costos[i-1];
                             int valI   = valores[i-1];
-                            int supI   = esSup[i-1];       // supervivencia que consume
-                            int comI   = 1 - esSup[i-1];   // comida que consume
+                            int supI   = esSup[i-1];
+                            int comI   = 1 - esSup[i-1];
 
                             if (p >= pesoI && v >= volI && c >= costoI && s >= supI && m >= comI) {
                                 Estado anterior = tab[i-1][p-pesoI][v-volI][c-costoI][s-supI][m-comI];
@@ -63,7 +63,7 @@ Estado mochila(int maxP, int maxV, int maxC, int S, int M, int cantElem, int* pe
                                 usar.peso  = anterior.peso  + pesoI;
                                 usar.cant  = anterior.cant  + 1;
                             }
-                            tab[i][p][v][c][s][m] = mejor(no, usar);
+                            tab[i][p][v][c][s][m] = mejor(aux, usar);
                         
                         }
                     }
@@ -86,7 +86,7 @@ int main()
     int valores[cant];
     int esSup[cant]; // 1 si supervivencia, 0 si comida
 
-    cin >> maxP >> maxV >> maxC >> S >> M; // faltaba leer esto
+    cin >> maxP >> maxV >> maxC >> S >> M;
 
     for (int i = 0; i < cant; i++) {
         string cat;
